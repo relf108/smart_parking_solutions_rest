@@ -38,7 +38,7 @@ class SmartParkingSolutionsRestChannel extends ApplicationChannel {
             .firstWhere((entries) => entries.key == 'code')
             .value;
       } on Exception catch (_) {
-        ///TODO Display error message "User must accept permissions to login through google".
+        return Response.unauthorized();
       }
 
       final client = HttpClient();
@@ -46,9 +46,11 @@ class SmartParkingSolutionsRestChannel extends ApplicationChannel {
           'https://oauth2.googleapis.com/token?code=${responseCode[0]}&client_id=${Credentials.clientID}&client_secret=${Credentials.clientSecret}&redirect_uri=http://localhost:8888/authUser&grant_type=authorization_code'));
       final response = (await req.close()).transform(const Utf8Decoder());
       await for (var data in response) {
+        // ignore: use_string_buffers
         accessToken += data;
       }
-      accessToken = accessToken.split('access_token')[1].split(':')[1].split('\"')[1];
+      accessToken =
+          accessToken.split('access_token')[1].split(':')[1].split('\"')[1];
       print(accessToken);
       return Response.ok({"key": "value"});
     });

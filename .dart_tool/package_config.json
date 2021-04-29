@@ -14,6 +14,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "archive",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/archive-3.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "args",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/args-2.1.0",
       "packageUri": "lib/",
@@ -22,6 +28,12 @@
     {
       "name": "async",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/async-2.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "basic_utils",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/basic_utils-3.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -74,6 +86,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "conduit_common_test",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/conduit_common_test-2.0.0-b5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "conduit_config",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/conduit_config-1.0.0-b1",
       "packageUri": "lib/",
@@ -104,6 +122,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "conduit_test",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/conduit_test-2.0.0-b1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "convert",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/convert-3.0.0",
       "packageUri": "lib/",
@@ -118,6 +142,30 @@
     {
       "name": "crypto",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "csv",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/csv-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "dcli",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/dcli-1.0.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "equatable",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/equatable-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "ffi",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/ffi-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -140,6 +188,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "http",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/http-0.13.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "http_multi_server",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/http_multi_server-3.0.1",
       "packageUri": "lib/",
@@ -152,6 +206,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "ini",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/ini-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "io",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/io-1.0.0",
       "packageUri": "lib/",
@@ -160,6 +220,12 @@
     {
       "name": "js",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/js-0.6.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "json_annotation",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/json_annotation-4.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -212,8 +278,20 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "pointycastle",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/pointycastle-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "pool",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/pool-1.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "posix",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/posix-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -244,6 +322,18 @@
     {
       "name": "quiver",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/quiver-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "random_string",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/random_string-2.2.0-nullsafety",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "settings_yaml",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/settings_yaml-3.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -344,6 +434,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "uuid",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/uuid-3.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "validators2",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/validators2-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "vin_decoder",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/vin_decoder-0.2.0-nullsafety",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vm_service",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/vm_service-6.2.0",
       "packageUri": "lib/",
@@ -380,7 +488,7 @@
       "languageVersion": "2.0"
     }
   ],
-  "generated": "2021-04-29T07:08:10.487269Z",
+  "generated": "2021-04-29T07:14:52.930356Z",
   "generator": "pub",
   "generatorVersion": "2.12.4"
 }
