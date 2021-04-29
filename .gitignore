@@ -13,3 +13,4 @@ Dart_Packages.xml
 .idea/
 *.aqueduct.pid
 lib/credentials.dart
+.history

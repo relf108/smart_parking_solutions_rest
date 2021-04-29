@@ -1,10 +1,10 @@
-import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
-import 'package:aqueduct_test/aqueduct_test.dart';
+// import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
+// import 'package:aqueduct_test/aqueduct_test.dart';
 
-export 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
-export 'package:aqueduct_test/aqueduct_test.dart';
-export 'package:test/test.dart';
-export 'package:aqueduct/aqueduct.dart';
+// export 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
+// export 'package:aqueduct_test/aqueduct_test.dart';
+// export 'package:test/test.dart';
+// export 'package:aqueduct/aqueduct.dart';
 
 /// A testing harness for smart_parking_solutions_rest.
 ///
@@ -19,14 +19,14 @@ export 'package:aqueduct/aqueduct.dart';
 ///           });
 ///         }
 ///
-class Harness extends TestHarness<SmartParkingSolutionsRestChannel> {
-  @override
-  Future onSetUp() async {
+// class Harness extends TestHarness<SmartParkingSolutionsRestChannel> {
+//   @override
+//   Future onSetUp() async {
 
-  }
+//   }
 
-  @override
-  Future onTearDown() async {
+//   @override
+//   Future onTearDown() async {
 
-  }
-}
+//   }
+// }
