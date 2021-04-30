@@ -177,7 +177,7 @@
     },
     {
       "name": "frontend_server_client",
-      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/frontend_server_client-2.0.0",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/frontend_server_client-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -250,6 +250,12 @@
     {
       "name": "mime",
       "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/mime-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "mysql1",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/mysql1-0.19.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -405,7 +411,7 @@
     },
     {
       "name": "test",
-      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/test-1.17.2",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/test-1.17.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -417,7 +423,7 @@
     },
     {
       "name": "test_core",
-      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/test_core-0.3.22",
+      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/test_core-0.3.23",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -488,7 +494,7 @@
       "languageVersion": "2.0"
     }
   ],
-  "generated": "2021-04-29T07:14:52.930356Z",
+  "generated": "2021-04-30T04:03:11.526905Z",
   "generator": "pub",
   "generatorVersion": "2.12.4"
 }

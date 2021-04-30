@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   conduit: ^2.0.0-b2
+  mysql1: ^0.19.0
 
 dev_dependencies:
   test: ^1.0.0
