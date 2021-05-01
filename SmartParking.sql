@@ -1,5 +1,9 @@
+DROP TABLE tbl_booking;
+DROP TABLE tbl_tokens;
+DROP TABLE tbl_user;
 CREATE TABLE IF NOT EXISTS tbl_user (
     userID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    googleUserID VARCHAR(255),
     givenName varchar(255),
     familyName varchar(255),
     email varchar(255),
@@ -14,3 +18,10 @@ CREATE TABLE IF NOT EXISTS tbl_booking (
     ownerFK int,
     FOREIGN KEY (ownerFK) REFERENCES tbl_user(userID)
 );
+CREATE TABLE IF NOT EXISTS tbl_tokens (
+    tokenID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tokenValue VARCHAR(255),
+    createdDate DATETIME,
+    ownerFK int,
+    FOREIGN KEY (ownerFK) REFERENCES tbl_user(userID)
+)
