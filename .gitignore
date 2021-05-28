@@ -14,3 +14,5 @@ Dart_Packages.xml
 .idea/
 *.aqueduct.pid
 lib/credentials.dart
+.dart_tool/package_config.json
+.dart_tool/package_config.json
