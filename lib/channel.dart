@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 import 'package:smart_parking_solutions_rest/credentials.dart';
 import 'package:smart_parking_solutions_rest/database.dart';
+import 'package:smart_parking_solutions_rest/controller/parking_controller.dart';
 import 'smart_parking_solutions_rest.dart';
+
 
 class SmartParkingSolutionsRestChannel extends ApplicationChannel {
   @override
@@ -71,6 +73,9 @@ class SmartParkingSolutionsRestChannel extends ApplicationChannel {
           createdDate: tokenCreated);
       return Response.ok({"key": "value"});
     });
+    router
+        .route("/parking")
+        .link(() => ParkingController());
 
     return router;
   }
