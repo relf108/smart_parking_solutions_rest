@@ -45,6 +45,22 @@ class DataBase {
     return result;
   }
 
+  ///tables:<br>
+  /// tbl_user, <br>
+  /// tbl_booking <br>
+  ///searchTermVal example:<br>
+  /// {'googleUserID': '${newUser.googleUserID}'}
+  static Future<Results> search(
+      {@required String table,
+      @required Map<String, String> searchTermVal}) async {
+    final conn = await getConnection();
+    final result = await conn.query(
+        'select * from $table where ${searchTermVal.entries.first.key} = ?',
+        [searchTermVal.entries.first.value]);
+    await conn.close();
+    return result;
+  }
+
   static Future<Results> createBooking(
       {@required String bayID,
       @required DateTime startDate,
