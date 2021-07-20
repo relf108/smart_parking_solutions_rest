@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
-import 'package:smart_parking_solutions_rest/credentials.dart';
+// ignore: implementation_imports
+import 'package:smart_parking_solutions_common/src/credentials.dart';
 import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
 
 class OAuthController extends Controller {

@@ -37,19 +37,4 @@ class ParkingController extends ResourceController {
       return Response.ok(respMap);
     }
   }
-
-  @Operation.post()
-  Future<Response> post() async {
-    //TODO: Implement post method
-  }
-
-  @Operation.put()
-  Future<Response> put() async {
-    //TODO: Implement put method
-  }
-
-  @Operation.delete()
-  Future<Response> delete() async {
-    //TODO: Implement delete method
-  }
 }

@@ -3,7 +3,8 @@ import 'package:meta/meta.dart';
 
 import 'package:mysql1/mysql1.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
-import 'package:smart_parking_solutions_rest/credentials.dart';
+// ignore: implementation_imports
+import 'package:smart_parking_solutions_common/src/credentials.dart';
 
 class DataBase {
   static Future<MySqlConnection> getConnection() async {
@@ -32,11 +33,11 @@ class DataBase {
 
   ///TODO prevent inserting duplicates
   static Future<Results> createUser(
-      {@required String googleUserID,
-      @required String givenName,
-      @required String familyName,
-      @required String email,
-      @required bool handicapped}) async {
+      {@required String? googleUserID,
+      @required String? givenName,
+      @required String? familyName,
+      @required String? email,
+      @required bool? handicapped}) async {
     final conn = await getConnection();
     final result = await conn.query(
         'insert into tbl_user (googleUserID, givenName, familyName, email, handicapped) values(?, ?, ?, ?, ?)',
@@ -51,37 +52,37 @@ class DataBase {
   ///searchTermVal example:<br>
   /// {'googleUserID': '${newUser.googleUserID}'}
   static Future<Results> search(
-      {@required String table,
-      @required Map<String, String> searchTermVal}) async {
+      {@required String? table,
+      @required Map<String, String>? searchTermVal}) async {
     final conn = await getConnection();
     final result = await conn.query(
-        'select * from $table where ${searchTermVal.entries.first.key} = ?',
+        'select * from $table where ${searchTermVal!.entries.first.key} = ?',
         [searchTermVal.entries.first.value]);
     await conn.close();
     return result;
   }
 
   static Future<Results> createBooking(
-      {@required String bayID,
-      @required DateTime startDate,
-      @required DateTime endDate,
-      @required User owner}) async {
+      {@required String? bayID,
+      @required DateTime? startDate,
+      @required DateTime? endDate,
+      @required User? owner}) async {
     final conn = await getConnection();
     final result = await conn.query(
         'insert into tbl_booking (bayID, createdDate, startDate, endDate, ownerFK) values(?, ?, ?, ?, ?)',
-        [bayID, DateTime.now(), startDate, endDate, owner.getUserID]);
+        [bayID, DateTime.now(), startDate, endDate, owner!.getUserID]);
     await conn.close();
     return result;
   }
 
   static Future<Results> createToken(
-      {@required String tokenValue,
-      @required User owner,
-      @required DateTime createdDate}) async {
+      {@required String? tokenValue,
+      @required User? owner,
+      @required DateTime? createdDate}) async {
     final conn = await getConnection();
     final result = await conn.query(
         'insert into tbl_tokens (tokenValue, ownerFK, createdDate) values(?, ?, ?)',
-        [tokenValue, await owner.getUserID(), createdDate]);
+        [tokenValue, await owner!.getUserID(), createdDate]);
     await conn.close();
     return result;
   }
