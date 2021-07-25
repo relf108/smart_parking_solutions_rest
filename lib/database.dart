@@ -23,7 +23,7 @@ class DataBase {
   static Future<void> initDB() async {
     final conn = await getConnection();
     await conn.query(
-        'CREATE TABLE IF NOT EXISTS tbl_user (userID int NOT NULL AUTO_INCREMENT PRIMARY KEY, givenName varchar(255), familyName varchar(255), email varchar(255), handicapped boolean)');
+        'CREATE TABLE IF NOT EXISTS tbl_user (userID int NOT NULL AUTO_INCREMENT PRIMARY KEY, givenName varchar(255), familyName varchar(255), email varchar(255), password varchar(255),handicapped boolean)');
     await conn.query(
         'CREATE TABLE IF NOT EXISTS tbl_booking (bookingID int NOT NULL AUTO_INCREMENT PRIMARY KEY, bayID varchar(255), createdDate DATETIME, startDate DATETIME, endDate DATETIME, ownerFK int, FOREIGN KEY (ownerFK) REFERENCES tbl_user(userID))');
     await conn.query(
@@ -37,11 +37,20 @@ class DataBase {
       @required String? givenName,
       @required String? familyName,
       @required String? email,
+      String? password,
       @required bool? handicapped}) async {
     final conn = await getConnection();
-    final result = await conn.query(
-        'insert into tbl_user (googleUserID, givenName, familyName, email, handicapped) values(?, ?, ?, ?, ?)',
-        [googleUserID, givenName, familyName, email, handicapped]);
+    final Results result;
+    if (password != null) {
+      result = await conn.query(
+          'insert into tbl_user (googleUserID, givenName, familyName, email, handicapped) values(?, ?, ?, ?, ?)',
+          [googleUserID, givenName, familyName, email, handicapped]);
+    }
+    else{
+        result = await conn.query(
+          'insert into tbl_user (googleUserID, givenName, familyName, email, password, handicapped) values(?, ?, ?, ?, ?, ?)',
+          [googleUserID, givenName, familyName, email, password ,handicapped]);
+    }
     await conn.close();
     return result;
   }

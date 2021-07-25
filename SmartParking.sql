@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS tbl_user (
     givenName varchar(255),
     familyName varchar(255),
     email varchar(255),
+    password VARCHAR(255),
     handicapped boolean
 );
 CREATE TABLE IF NOT EXISTS tbl_booking (
