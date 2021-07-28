@@ -333,10 +333,10 @@ packages:
   smart_parking_solutions_common:
     dependency: "direct main"
     description:
-      path: "../smart_parking_solutions_common"
-      relative: true
-    source: path
-    version: "0.0.0"
+      name: smart_parking_solutions_common
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6"
   source_map_stack_trace:
     dependency: transitive
     description:

@@ -10,9 +10,9 @@ environment:
 dependencies:
   conduit: ^3.0.0
   mysql1: ^0.19.0
+  smart_parking_solutions_common: ^0.0.6
   #path must be the directory of smart_parking_solutions_common's pubspec.yaml this may not be correct for everybody
-  smart_parking_solutions_common:
-    path: ../smart_parking_solutions_common
+
 dev_dependencies:
   test: ^1.0.0
   conduit_test: ^3.0.0

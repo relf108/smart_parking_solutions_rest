@@ -61,6 +61,7 @@ class OAuthController extends Controller {
         givenName: newUser.givenName,
         familyName: newUser.familyName,
         email: newUser.email,
+        password: newUser.password,
         handicapped: newUser.disabled,
         googleUserID: newUser.googleUserID);
 
