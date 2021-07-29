@@ -32,7 +32,8 @@ class ParkingController extends ResourceController {
       return Response.noContent();
     } else {
       respString = respString.replaceAll('[', '').replaceAll(']', '');
-      final respMap = json.decode(respString);
+      ///TODO display decode each result
+      final respMap = json.decode(respString.split('\n,').first);
       return Response.ok(respMap);
     }
   }

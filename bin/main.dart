@@ -14,8 +14,9 @@ Future main() async {
   } on Exception catch (_) {
     //On socket closed exception make sure this is the only connection to the database
     print('DB: Failed to initialise database');
+    print(_.toString());
   }
-  
+
   print("Application started on port: ${app.options.port}.");
   print("Use Ctrl-C (SIGINT) to stop running the application.");
 }
