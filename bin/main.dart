@@ -12,6 +12,7 @@ Future main() async {
   try {
     await DataBase.initDB();
   } on Exception catch (_) {
+    //On socket closed exception make sure this is the only connection to the database
     print('DB: Failed to initialise database');
   }
   

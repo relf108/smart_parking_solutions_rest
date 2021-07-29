@@ -1,6 +1,6 @@
-DROP TABLE tbl_booking;
-DROP TABLE tbl_tokens;
-DROP TABLE tbl_user;
+-- DROP TABLE tbl_booking;
+-- DROP TABLE tbl_tokens;
+-- DROP TABLE tbl_user;
 CREATE TABLE IF NOT EXISTS tbl_user (
     userID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     googleUserID VARCHAR(255),

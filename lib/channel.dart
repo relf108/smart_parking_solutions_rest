@@ -1,3 +1,4 @@
+import 'package:smart_parking_solutions_rest/controllers/change_password_controller.dart';
 import 'package:smart_parking_solutions_rest/controllers/oauth_controller.dart';
 import 'package:smart_parking_solutions_rest/controllers/parking_controller.dart';
 import 'package:smart_parking_solutions_rest/controllers/sign_in_controller.dart';
@@ -17,6 +18,7 @@ class SmartParkingSolutionsRestChannel extends ApplicationChannel {
     router.route("/authUser").link(() => OAuthController());
     router.route("/parking").link(() => ParkingController());
     router.route("/signInUser").link(() => SignInController());
+    router.route("/changePassword").link(() => ChangePasswordController());
     return router;
   }
 }
