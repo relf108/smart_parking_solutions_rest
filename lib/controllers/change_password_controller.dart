@@ -13,7 +13,8 @@ class ChangePasswordController extends ResourceController {
       @Bind.query("password") String password) async {
     final result = await DataBase.search(
         table: 'tbl_user', searchTermVal: {'email': email});
-    User.fromMap(map: result.fields.asMap());
+    final user = User.fromMap(map: result.fields.asMap());
+    user.password = password;
     return Response.ok("");
   }
 }
