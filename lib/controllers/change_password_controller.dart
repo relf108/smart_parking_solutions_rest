@@ -14,7 +14,7 @@ class ChangePasswordController extends ResourceController {
     final result = await DataBase.search(
         table: 'tbl_user', searchTermVal: {'email': email});
     final user = User.fromMap(map: result.fields.asMap());
-    user.password = password;
+    await DataBase.updateUser(column: 'password', newVal: password, user: user);
     return Response.ok("");
   }
 }

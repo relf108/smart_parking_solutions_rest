@@ -285,7 +285,7 @@
     },
     {
       "name": "smart_parking_solutions_common",
-      "rootUri": "file:///home/tsutton/.pub-cache/hosted/pub.dartlang.org/smart_parking_solutions_common-0.0.8",
+      "rootUri": "../../smart_parking_solutions_common",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -398,7 +398,7 @@
       "languageVersion": "2.13"
     }
   ],
-  "generated": "2021-07-31T08:23:44.387389Z",
+  "generated": "2021-08-05T17:14:00.946467Z",
   "generator": "pub",
-  "generatorVersion": "2.14.0-332.0.dev"
+  "generatorVersion": "2.13.4"
 }

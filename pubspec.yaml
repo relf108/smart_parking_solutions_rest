@@ -8,12 +8,12 @@ environment:
   sdk: ">=2.13.4 <=3.0.0"
 
 dependency_overrides: 
-#  smart_parking_solutions_common:
- #   path: ../smart_parking_solutions_common
+ smart_parking_solutions_common:
+   path: ../smart_parking_solutions_common
     
 dependencies:
   conduit: ^3.0.0
-  mysql1: ^0.19.0
+  mysql1: ^0.19.2
   smart_parking_solutions_common: ^0.0.7
   #path must be the directory of smart_parking_solutions_common's pubspec.yaml this may not be correct for everybody
 
