@@ -13,7 +13,7 @@ dependency_overrides:
     
 dependencies:
   conduit: ^3.0.0
-  mysql1: ^0.19.2
+  galileo_mysql: ^3.0.0
   smart_parking_solutions_common: ^0.0.7
   #path must be the directory of smart_parking_solutions_common's pubspec.yaml this may not be correct for everybody
 

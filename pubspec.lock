@@ -162,6 +162,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  galileo_mysql:
+    dependency: "direct main"
+    description:
+      name: galileo_mysql
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   glob:
     dependency: transitive
     description:
@@ -225,13 +232,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  mysql1:
-    dependency: "direct main"
-    description:
-      name: mysql1
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.19.2"
   node_preamble:
     dependency: transitive
     description:
@@ -336,7 +336,7 @@ packages:
       path: "../smart_parking_solutions_common"
       relative: true
     source: path
-    version: "0.0.8"
+    version: "0.0.9"
   source_map_stack_trace:
     dependency: transitive
     description:
