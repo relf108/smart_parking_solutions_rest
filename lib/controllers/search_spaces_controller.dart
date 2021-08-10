@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:conduit/conduit.dart';
+import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 import 'package:smart_parking_solutions_rest/response_objects/search_spaces_response.dart';
 
 import '../smart_parking_solutions_rest.dart';
@@ -24,7 +25,7 @@ class SearchSpacesController extends ResourceController {
 
     Future<Response?> _addressToCoordinates() async {
       final geocodeUri = Uri.parse(
-          "https://maps.googleapis.com/maps/api/geocode/json?address=$addressRequest&key=AIzaSyAp41xgmMziyNZcBIw0mhaiN5zrxXLzlbQ");
+          "https://maps.googleapis.com/maps/api/geocode/json?address=$addressRequest&key=${Credentials.googleKey}");
       final HttpClientRequest geoReq = await client.getUrl(geocodeUri);
       final geocodeResp = (await geoReq.close()).transform(const Utf8Decoder());
       var geoRespString = '';
@@ -97,7 +98,7 @@ class SearchSpacesController extends ResourceController {
     Future<String> distanceFromPoint(
         {required String newLat, required String newLong}) async {
       final distanceMatrix = Uri.parse(
-          "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$newLat,$newLong&destinations=$lat,$long&key=AIzaSyAp41xgmMziyNZcBIw0mhaiN5zrxXLzlbQ");
+          "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$newLat,$newLong&destinations=$lat,$long&key=${Credentials.googleKey}");
       final HttpClientRequest distanceReq = await client.getUrl(distanceMatrix);
       final distanceResp =
           (await distanceReq.close()).transform(const Utf8Decoder());
