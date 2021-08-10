@@ -5,7 +5,7 @@ import 'package:conduit/conduit.dart';
 
 import '../smart_parking_solutions_rest.dart';
 
-class ParkingController extends ResourceController {
+class ReserveSpaceController extends ResourceController {
   Future prepare() async {
     logger.onRecord.listen(
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
@@ -13,13 +13,14 @@ class ParkingController extends ResourceController {
 
   @Operation.get()
   Future<Response> get(
-      @Bind.query('lat') double lat,
-      @Bind.query('long') double long,
-      @Bind.query('distance') int distance) async {
+      @Bind.query('bayID') String bayID,
+      @Bind.query('email') String email,
+      @Bind.query('startTime') DateTime startTime,
+      @Bind.query('duration') Duration duration) async {
     final client =
         HttpClient(); // Todo client intialization in class constructor or pass throught constructor
     final uri = Uri.parse(
-        "http://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?\$where=within_circle(location,$lat,$long,$distance)");
+        "https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=$bayID");
     //HttpClientResponse httpResult;
     final HttpClientRequest req = await client.getUrl(uri);
     final response = (await req.close()).transform(const Utf8Decoder());
@@ -32,8 +33,10 @@ class ParkingController extends ResourceController {
       return Response.noContent();
     } else {
       respString = respString.replaceAll('[', '').replaceAll(']', '');
+
       ///TODO display decode each result
       final respMap = json.decode(respString.split('\n,').first);
+
       return Response.ok(respMap);
     }
   }
