@@ -18,7 +18,7 @@ class SmartParkingSolutionsRestChannel extends ApplicationChannel {
     final router = Router();
 
     router.route("/authUser").link(() => OAuthController());
-    router.route("/parking").link(() => SearchSpacesController());
+    router.route("/searchSpaces").link(() => SearchSpacesController());
     router.route("/signInUser").link(() => SignInController());
     router.route("/changePassword").link(() => ChangePasswordController());
     router.route("/reserveSpace").link(() => ReserveSpaceController());

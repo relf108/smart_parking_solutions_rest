@@ -7,14 +7,14 @@ publish_to: none
 environment:
   sdk: ">=2.13.4 <=3.0.0"
 
-dependency_overrides: 
- smart_parking_solutions_common:
-   path: ../smart_parking_solutions_common
+#dependency_overrides: 
+# smart_parking_solutions_common:
+#   path: ../smart_parking_solutions_common
     
 dependencies:
   conduit: ^3.0.0
   galileo_mysql: ^3.0.0
-  smart_parking_solutions_common: ^0.0.7
+  smart_parking_solutions_common: ^0.0.14
   #path must be the directory of smart_parking_solutions_common's pubspec.yaml this may not be correct for everybody
 
 dev_dependencies:

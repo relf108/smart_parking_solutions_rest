@@ -14,7 +14,6 @@ class OAuthController extends Controller {
 
   @override
   FutureOr<RequestOrResponse> handle(Request request) async {
-    final tokenCreated = DateTime.now().toUtc();
     var responseCode = [];
     var accessToken = '';
 
@@ -28,7 +27,7 @@ class OAuthController extends Controller {
 
     final client = HttpClient();
     final HttpClientRequest req = await client.postUrl(Uri.parse(
-        'https://oauth2.googleapis.com/token?code=${responseCode[0]}&client_id=${Credentials.clientID}&client_secret=${Credentials.clientSecret}&redirect_uri=http://localhost:8888/authUser&grant_type=authorization_code'));
+        'https://oauth2.googleapis.com/token?code=${responseCode[0]}&client_id=${Credentials.clientID}&client_secret=${Credentials.clientSecret}&redirect_uri=http://geekayk.ddns.net:8888/authUser&grant_type=authorization_code'));
 
     final response = (await req.close()).transform(const Utf8Decoder());
     await for (var data in response) {
@@ -66,11 +65,11 @@ class OAuthController extends Controller {
         googleUserID: newUser.googleUserID);
 
     final AccessToken newToken = AccessToken(
-        createdDate: tokenCreated,
+        createdDate: DateTime.now(),
         owner: newUser,
         value: accessTokenVal.value.toString());
     await DataBase.createToken(
-        tokenValue: newToken.value, owner: newUser, createdDate: tokenCreated);
+        tokenValue: newToken.value, owner: newUser, createdDate: newToken.createdDate);
     return Response.ok({});
   }
 }

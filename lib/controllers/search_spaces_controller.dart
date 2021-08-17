@@ -106,8 +106,8 @@ class SearchSpacesController extends ResourceController {
         // ignore: use_string_buffers
         distanceRespString += data;
       }
-      var distMap = jsonDecode(distanceRespString) as Map;
-      var distance = distMap.entries
+      final distMap = jsonDecode(distanceRespString) as Map;
+      final distance = distMap.entries
           .firstWhere((element) => element.key == 'rows')
           .value[0]
           .entries
@@ -117,7 +117,7 @@ class SearchSpacesController extends ResourceController {
           .first
           .value
           .entries
-          .firstWhere((element) => element.key == 'text')
+          .firstWhere((element) => element.key == 'value')
           .value
           .toString();
       return distance;
@@ -142,24 +142,28 @@ class SearchSpacesController extends ResourceController {
           .firstWhere((entry) => entry.key == 'lon')
           .value
           .toString();
-      final descMap = await _getDescription(bayID);
+      final location = element.entries
+          .firstWhere((entry) => entry.key == 'location')
+          .value as Map;
+      final humanAddress = location.entries
+          .firstWhere((element) => element.key == 'human_address')
+          .value.toString();
+      final descMapFull = await _getDescription(bayID);
+      final descMap = {};
+      for (var entry in descMapFull!.entries) {
+        if (entry.key.toString().contains('description')) {
+          descMap.addAll({entry.key: entry.value});
+        }
+      }
       responses.add(SearchSpacesResponse(
           distance:
               await distanceFromPoint(newLat: spaceLat, newLong: spaceLon),
+          humanAddress: humanAddress,
           lat: spaceLat,
           long: spaceLon,
           bayID: bayID,
           streetMarkerID: streetMarkerID,
-          description: {
-            'description1': descMap!.entries
-                .firstWhere((element) => element.key == 'description1')
-                .value
-                .toString(),
-            'description2': descMap.entries
-                .firstWhere((element) => element.key == 'description2')
-                .value
-                .toString()
-          }));
+          description: descMap));
     }
     final List jsonResponses = [];
     for (var response in responses) {

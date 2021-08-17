@@ -16,6 +16,6 @@ class CurrentBookingsController extends ResourceController {
     for (var booking in bookings) {
       result.add(Booking.fromDBObj(dbBinary: booking).toJson());
     }
-    return Response.ok({'bookings': result});
+    return Response.ok({'numberOfBookings': result.length, 'bookings': result});
   }
 }
