@@ -17,7 +17,8 @@ class CurrentBookingsController extends ResourceController {
           table: 'tbl_user', searchTermVal: {'email': email});
       final user = User.fromDBObj(userBinary: userDB.first);
       final bookings = await DataBase.search(
-          table: 'tbl_booking', searchTermVal: {'ownerFK': await user.getUserID()});
+          table: 'tbl_booking',
+          searchTermVal: {'ownerFK': user.getUserID().toString()});
       for (var booking in bookings) {
         result.add(Booking.fromDBObj(dbBinary: booking).toJson());
       }
