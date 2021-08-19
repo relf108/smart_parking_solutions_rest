@@ -11,6 +11,16 @@ Future main() async {
   });
   final harness = Harness()..install();
 
+  test("create user", () async {
+    await DataBase.createUser(
+        googleUserID: '116902257632708248933',
+        givenName: 'Tristan',
+        familyName: 'Sutton',
+        email: 'tristan.sutton@gmail.com',
+        password: 'unset',
+        handicapped: false);
+  });
+
   test("GET /example returns 200 {'key': 'value'}", () async {
     expectResponse(await harness.agent!.get("/example"), 200,
         body: {"key": "value"});

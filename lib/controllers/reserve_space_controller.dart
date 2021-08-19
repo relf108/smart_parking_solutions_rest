@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:conduit/conduit.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 
@@ -28,8 +30,27 @@ class ReserveSpaceController extends ResourceController {
       final usrSearch = await DataBase.search(
           table: 'tbl_user', searchTermVal: {'email': email});
       final user = User.fromDBObj(userBinary: usrSearch.first);
+      final bayDetails = await _getDescription(bayID);
+      final streetMarkerID = bayDetails!.entries
+          .firstWhere((entry) => entry.key == 'st_marker_id')
+          .value
+          .toString();
+      final lat = bayDetails.entries
+          .firstWhere((entry) => entry.key == 'lat')
+          .value
+          .toString();
+      final lon = bayDetails.entries
+          .firstWhere((entry) => entry.key == 'lon')
+          .value
+          .toString();
       await DataBase.createBooking(
-          bayID: bayID, startDate: startDate, endDate: endDate, owner: user);
+          bayID: bayID,
+          startDate: startDate,
+          endDate: endDate,
+          owner: user,
+          streetMarkerID: streetMarkerID,
+          lat: lat,
+          lon: lon);
     } else {
       return Response.badRequest();
     }
@@ -48,5 +69,20 @@ class ReserveSpaceController extends ResourceController {
       }
     }
     return true;
+  }
+
+  Future<Map?> _getDescription(String bayID) async {
+    final client = HttpClient();
+    final descUri = Uri.parse(
+        "https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=$bayID");
+    final HttpClientRequest descReq = await client.getUrl(descUri);
+    final descResponse = (await descReq.close()).transform(const Utf8Decoder());
+    var descString = '';
+    await for (var data in descResponse) {
+      // ignore: use_string_buffers
+      descString += data;
+    }
+    descString = descString.replaceAll('[', '').replaceAll(']', '');
+    return jsonDecode(descString) as Map;
   }
 }
