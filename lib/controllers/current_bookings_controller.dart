@@ -10,11 +10,22 @@ class CurrentBookingsController extends ResourceController {
   }
 
   @Operation.get()
-  Future<Response> get() async {
-    final bookings = await DataBase.select(table: 'tbl_booking');
+  Future<Response> get({@Bind.query("email") String? email}) async {
     final result = [];
-    for (var booking in bookings) {
-      result.add(Booking.fromDBObj(dbBinary: booking).toJson());
+    if (email != null) {
+      final userDB = await DataBase.search(
+          table: 'tbl_user', searchTermVal: {'email': email});
+      final user = User.fromDBObj(userBinary: userDB.first);
+      final bookings = await DataBase.search(
+          table: 'tbl_booking', searchTermVal: {'ownerFK': await user.getUserID()});
+      for (var booking in bookings) {
+        result.add(Booking.fromDBObj(dbBinary: booking).toJson());
+      }
+    } else {
+      final bookings = await DataBase.select(table: 'tbl_booking');
+      for (var booking in bookings) {
+        result.add(Booking.fromDBObj(dbBinary: booking).toJson());
+      }
     }
     return Response.ok({'numberOfBookings': result.length, 'bookings': result});
   }
