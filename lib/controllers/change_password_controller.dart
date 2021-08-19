@@ -8,12 +8,12 @@ class ChangePasswordController extends ResourceController {
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
 
-  @Operation.post()
-  FutureOr<RequestOrResponse> post(@Bind.query("email") String email,
+  @Operation.get()
+  FutureOr<Response> get(@Bind.query("email") String email,
       @Bind.query("password") String password) async {
     final result = await DataBase.search(
         table: 'tbl_user', searchTermVal: {'email': email});
-    final user = User.fromMap(map: result.fields.asMap());
+    final user = User.fromDBObj(userBinary: result.first);
     await DataBase.updateUser(column: 'password', newVal: password, user: user);
     return Response.ok("");
   }
