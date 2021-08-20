@@ -1,4 +1,5 @@
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
+import 'package:smart_parking_solutions_rest/data_access_objects/booking_dao.dart';
 import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
 
 class DeleteBookingController extends ResourceController {
@@ -9,20 +10,13 @@ class DeleteBookingController extends ResourceController {
 
   @Operation.get()
   Future<Response> get(
-      {@Bind.query("email") required String email,
-      @Bind.query("createdDate") required DateTime createdDate}) async {
-    final Booking booking;
-    final userBin = await DataBase.search(
-        table: 'tbl_user', searchTermVal: {'email': email});
-    final user = User.fromDBObj(userBinary: userBin.first);
+      {@Bind.query("booking") required Booking booking}) async {
     try {
-      booking = (await user.getBookings())
-          .firstWhere((element) => element.createdDate == createdDate);
+      final dao = BookingDAO.fromBooking(booking: booking);
+      await dao.delete();
     } on Exception catch (_) {
       return Response.badRequest();
     }
-
-    await DataBase.deleteBooking(bookingID: booking.getBookingID());
     return Response.accepted();
   }
 }

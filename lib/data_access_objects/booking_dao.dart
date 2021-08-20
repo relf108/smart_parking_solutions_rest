@@ -12,6 +12,15 @@ class BookingDAO {
       required this.endDate,
       required this.bookedSpace});
 
+  BookingDAO.fromBooking({required Booking booking}) {
+    bookingID = booking.bookingID;
+    owner = booking.owner;
+    createdDate = booking.createdDate;
+    startDate = booking.startDate;
+    endDate = booking.endDate;
+    bookedSpace = booking.bookedSpace;
+  }
+
   late int bookingID;
   late User owner;
   late DateTime createdDate;
@@ -19,7 +28,7 @@ class BookingDAO {
   late DateTime endDate;
   late ParkingSpace bookedSpace;
 
-  Future<Results> createBooking() async {
+  Future<Results> insert() async {
     final conn = await DataBase.getConnection();
     final result = await conn.query(
         'insert into tbl_booking (createdDate, startDate, endDate, owner, bookedSpace) values(?, ?, ?, ?, ?, ?, ?, ?)',
@@ -35,7 +44,7 @@ class BookingDAO {
     return result;
   }
 
-  Future<Results> deleteBooking() async {
+  Future<Results> delete() async {
     final conn = await DataBase.getConnection();
     final result = await conn
         .query('delete from tbl_booking where bookingID = ?', [bookingID]);

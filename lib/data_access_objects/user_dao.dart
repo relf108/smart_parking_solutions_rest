@@ -11,7 +11,15 @@ class UserDAO {
       required this.email,
       required this.password,
       required this.handicapped});
-
+  UserDAO.fromUser({required User user}) {
+    userID = user.userID;
+    googleUserID = user.googleUserID;
+    givenName = user.givenName;
+    familyName = user.familyName;
+    email = user.email;
+    password = user.password;
+    handicapped = user.handicapped;
+  }
   late int userID;
   String? googleUserID;
   String? givenName;

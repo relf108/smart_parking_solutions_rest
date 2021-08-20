@@ -1,4 +1,3 @@
-import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
 
 Future main() async {

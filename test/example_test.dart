@@ -1,5 +1,3 @@
-import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
-
 import 'harness/app.dart';
 
 Future main() async {

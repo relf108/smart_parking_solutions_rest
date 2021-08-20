@@ -1,11 +1,6 @@
 import 'dart:async';
 
-//import 'package:mysql1/mysql1.dart';
-import 'package:meta/meta.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
-import 'package:galileo_mysql/galileo_mysql.dart';
-// ignore: implementation_imports
-import 'package:smart_parking_solutions_common/src/credentials.dart';
 
 class DataBase {
   static Future<MySqlConnection> getConnection() async {
@@ -26,13 +21,11 @@ class DataBase {
     await conn.query(
         'CREATE TABLE IF NOT EXISTS tbl_user (userID int NOT NULL AUTO_INCREMENT PRIMARY KEY, googleUserID varchar(255), givenName varchar(255), familyName varchar(255), email varchar(255), password varchar(255), handicapped boolean)');
     await conn.query(
-        'CREATE TABLE IF NOT EXISTS tbl_booking (bookingID int NOT NULL AUTO_INCREMENT PRIMARY KEY, bayID varchar(255), createdDate DATETIME, startDate DATETIME, endDate DATETIME, ownerFK int, FOREIGN KEY (ownerFK) REFERENCES tbl_user(userID), streetMarkerID varchar(255), lat varchar(255), lon varchar(255))');
-    await conn.query(
-        'CREATE TABLE IF NOT EXISTS tbl_tokens (tokenID int NOT NULL AUTO_INCREMENT PRIMARY KEY, tokenValue VARCHAR(255), createdDate DATETIME, ownerFK int, FOREIGN KEY (ownerFK) REFERENCES tbl_user(userID))');
+        'CREATE TABLE IF NOT EXISTS tbl_booking (bookingID int NOT NULL AUTO_INCREMENT PRIMARY KEY, owner JSON, createdDate DATETIME, startDate DATETIME, endDate DATETIME, bookedSpace JSON');
+    //  await conn.query(
+    //      'CREATE TABLE IF NOT EXISTS tbl_tokens (tokenID int NOT NULL AUTO_INCREMENT PRIMARY KEY, tokenValue VARCHAR(255), createdDate DATETIME, ownerFK int, FOREIGN KEY (ownerFK) REFERENCES tbl_user(userID))');
     await conn.close();
   }
-
-
 
   ///tables:<br>
   /// tbl_user, <br>
@@ -50,7 +43,7 @@ class DataBase {
     return result;
   }
 
-  static Future<Results> select({required String? table}) async {
+  static Future<Results> selectAll({required String? table}) async {
     final conn = await getConnection();
     final result = await conn.query('select * from $table');
     await conn.close();

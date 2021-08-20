@@ -10,24 +10,21 @@ class CurrentBookingsController extends ResourceController {
   }
 
   @Operation.get()
-  Future<Response> get({@Bind.query("email") String? email}) async {
+  Future<Response> get({@Bind.query("user") required User user}) async {
     final result = [];
-    if (email != null) {
-      final userDB = await DataBase.search(
-          table: 'tbl_user', searchTermVal: {'email': email});
-      final user = User.fromDBObj(userBinary: userDB.first);
-      final bookings = await DataBase.search(
-          table: 'tbl_booking',
-          searchTermVal: {'ownerFK': user.getUserID().toString()});
-      for (var booking in bookings) {
-        result.add(Booking.fromDBObj(dbBinary: booking).toJson());
-      }
-    } else {
-      final bookings = await DataBase.select(table: 'tbl_booking');
-      for (var booking in bookings) {
-        result.add(Booking.fromDBObj(dbBinary: booking).toJson());
-      }
+    //   if (email != null) {
+    final bookings = await DataBase.search(
+        table: 'tbl_booking',
+        searchTermVal: {'owner': (user.toJson()).toString()});
+    for (var booking in bookings) {
+      result.add(Booking.fromDBObj(dbBinary: booking).toJson());
     }
+    // } else {
+    //   final bookings = await DataBase.selectAll(table: 'tbl_booking');
+    //   for (var booking in bookings) {
+    //     result.add(Booking.fromDBObj(dbBinary: booking).toJson());
+    //   }
+    // }
     return Response.ok({'numberOfBookings': result.length, 'bookings': result});
   }
 }

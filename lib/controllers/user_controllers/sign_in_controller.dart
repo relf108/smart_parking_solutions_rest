@@ -1,8 +1,9 @@
 import 'package:conduit/conduit.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
+import 'package:smart_parking_solutions_rest/data_access_objects/database.dart';
 
 class SignInController extends ResourceController {
-  Future prepare() async {  
+  Future prepare() async {
     logger.onRecord.listen(
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
@@ -16,8 +17,7 @@ class SignInController extends ResourceController {
     if (user.password == 'unset') {
       ///User created account through google and needs to create a password
       return Response.badRequest();
-    }
-    else if (password != user.password) {
+    } else if (password != user.password) {
       return Response.unauthorized();
     }
     return Response.accepted();

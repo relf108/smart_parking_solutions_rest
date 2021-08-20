@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 // ignore: implementation_imports
 import 'package:smart_parking_solutions_common/src/credentials.dart';
+import 'package:smart_parking_solutions_rest/data_access_objects/user_dao.dart';
 import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
 
 class OAuthController extends Controller {
@@ -56,20 +57,14 @@ class OAuthController extends Controller {
     if (exists.isNotEmpty) {
       return Response.conflict(body: 'User exists');
     }
-    await DataBase.createUser(
-        givenName: newUser.givenName,
-        familyName: newUser.familyName,
-        email: newUser.email,
-        password: newUser.password,
-        handicapped: newUser.handicapped,
-        googleUserID: newUser.googleUserID);
+    await UserDAO.fromUser(user: newUser).insert();
 
-    final AccessToken newToken = AccessToken(
-        createdDate: DateTime.now(),
-        owner: newUser,
-        value: accessTokenVal.value.toString());
-    await DataBase.createToken(
-        tokenValue: newToken.value, owner: newUser, createdDate: newToken.createdDate);
+    // final AccessToken newToken = AccessToken(
+    //     createdDate: DateTime.now(),
+    //     owner: newUser,
+    //     value: accessTokenVal.value.toString());
+    // await DataBase.createToken(
+    //     tokenValue: newToken.value, owner: newUser, createdDate: newToken.createdDate);
     return Response.ok({});
   }
 }
