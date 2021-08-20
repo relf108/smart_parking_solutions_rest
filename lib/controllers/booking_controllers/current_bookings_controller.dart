@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:conduit/conduit.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 
@@ -10,7 +12,10 @@ class CurrentBookingsController extends ResourceController {
   }
 
   @Operation.get()
-  Future<Response> get({@Bind.query("user") required User user}) async {
+  Future<Response> get(
+      {@Bind.body() required Map<String, dynamic> json}) async {
+    acceptedContentTypes.add(ContentType.json);
+    final user = User.fromJson(json: json);
     final result = [];
     //   if (email != null) {
     final bookings = await DataBase.search(
@@ -19,12 +24,6 @@ class CurrentBookingsController extends ResourceController {
     for (var booking in bookings) {
       result.add(Booking.fromDBObj(dbBinary: booking).toJson());
     }
-    // } else {
-    //   final bookings = await DataBase.selectAll(table: 'tbl_booking');
-    //   for (var booking in bookings) {
-    //     result.add(Booking.fromDBObj(dbBinary: booking).toJson());
-    //   }
-    // }
     return Response.ok({'numberOfBookings': result.length, 'bookings': result});
   }
 }

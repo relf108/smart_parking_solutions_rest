@@ -21,7 +21,7 @@ class DataBase {
     await conn.query(
         'CREATE TABLE IF NOT EXISTS tbl_user (userID int NOT NULL AUTO_INCREMENT PRIMARY KEY, googleUserID varchar(255), givenName varchar(255), familyName varchar(255), email varchar(255), password varchar(255), handicapped boolean)');
     await conn.query(
-        'CREATE TABLE IF NOT EXISTS tbl_booking (bookingID int NOT NULL AUTO_INCREMENT PRIMARY KEY, owner JSON, createdDate DATETIME, startDate DATETIME, endDate DATETIME, bookedSpace JSON');
+        'CREATE TABLE IF NOT EXISTS tbl_booking (bookingID int NOT NULL AUTO_INCREMENT PRIMARY KEY, owner JSON, createdDate DATETIME, startDate DATETIME, endDate DATETIME, bookedSpace JSON)');
     //  await conn.query(
     //      'CREATE TABLE IF NOT EXISTS tbl_tokens (tokenID int NOT NULL AUTO_INCREMENT PRIMARY KEY, tokenValue VARCHAR(255), createdDate DATETIME, ownerFK int, FOREIGN KEY (ownerFK) REFERENCES tbl_user(userID))');
     await conn.close();

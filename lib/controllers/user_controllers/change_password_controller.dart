@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:conduit/conduit.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 import 'package:smart_parking_solutions_rest/data_access_objects/user_dao.dart';
@@ -11,8 +12,10 @@ class ChangePasswordController extends ResourceController {
 
   @Operation.get()
   FutureOr<Response> get(
-      {@Bind.query("user") required User user,
+      {@Bind.body() required Map<String, dynamic> json,
       @Bind.query("password") required String password}) async {
+    acceptedContentTypes.add(ContentType.json);
+    final user = User.fromJson(json: json);
     final userDAO = UserDAO.fromUser(user: user);
     try {
       await userDAO.update(column: 'password', newVal: password);

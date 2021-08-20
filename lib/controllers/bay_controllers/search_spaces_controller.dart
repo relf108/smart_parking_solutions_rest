@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:conduit/conduit.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 
-import '../../smart_parking_solutions_rest.dart';
+import '../../../smart_parking_solutions_rest.dart';
 
 class SearchSpacesController extends ResourceController {
   Future prepare() async {
@@ -16,7 +16,7 @@ class SearchSpacesController extends ResourceController {
   Future<Response> get(@Bind.query('address') String address,
       @Bind.query('distance') int distance) async {
     final List<SearchSpacesResponse> responses = [];
-    final List<Map> spaces = [];
+    final List<ParkingSpace> spaces = [];
     String lat = '';
     String long = '';
     final addressRequest = address.replaceAll(' ', '+');
@@ -74,7 +74,8 @@ class SearchSpacesController extends ResourceController {
         respString = respString.replaceAll('[', '').replaceAll(']', '');
 
         for (var space in respString.split('\n,')) {
-          spaces.add(json.decode(space) as Map);
+          spaces.add(ParkingSpace.fromJson(
+              json: json.decode(space) as Map<String, dynamic>));
         }
       }
     }
@@ -125,30 +126,8 @@ class SearchSpacesController extends ResourceController {
 
     await _addressToCoordinates();
     await _getSpaces();
-    for (Map element in spaces) {
-      final bayID = element.entries
-          .firstWhere((entry) => entry.key == 'bay_id')
-          .value
-          .toString();
-      final streetMarkerID = element.entries
-          .firstWhere((entry) => entry.key == 'st_marker_id')
-          .value
-          .toString();
-      final spaceLat = element.entries
-          .firstWhere((entry) => entry.key == 'lat')
-          .value
-          .toString();
-      final spaceLon = element.entries
-          .firstWhere((entry) => entry.key == 'lon')
-          .value
-          .toString();
-      final location = element.entries
-          .firstWhere((entry) => entry.key == 'location')
-          .value as Map;
-      final humanAddress = location.entries
-          .firstWhere((element) => element.key == 'human_address')
-          .value.toString();
-      final descMapFull = await _getDescription(bayID);
+    for (ParkingSpace space in spaces) {
+      final descMapFull = await _getDescription(space.bayID!);
       final descMap = {};
       for (var entry in descMapFull!.entries) {
         if (entry.key.toString().contains('description')) {
@@ -157,12 +136,9 @@ class SearchSpacesController extends ResourceController {
       }
       responses.add(SearchSpacesResponse(
           distance:
-              await distanceFromPoint(newLat: spaceLat, newLong: spaceLon),
-          humanAddress: humanAddress,
-          lat: spaceLat,
-          long: spaceLon,
-          bayID: bayID,
-          streetMarkerID: streetMarkerID,
+              await distanceFromPoint(newLat: space.lat!, newLong: space.lon!),
+          humanAddress: space.location!.humanAddress!,
+          space: space,
           description: descMap));
     }
     final List jsonResponses = [];
