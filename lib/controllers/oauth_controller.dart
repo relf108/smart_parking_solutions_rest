@@ -49,7 +49,7 @@ class OAuthController extends Controller {
       userInfoString += data;
     }
     final userInfoDecoded = json.decode(userInfoString) as Map;
-    final User newUser = User.fromMap(map: userInfoDecoded);
+    final User newUser = User.fromJson(json: userInfoDecoded);
     final exists = await DataBase.search(
         table: 'tbl_user',
         searchTermVal: {'googleUserID': '${newUser.googleUserID}'});
@@ -61,7 +61,7 @@ class OAuthController extends Controller {
         familyName: newUser.familyName,
         email: newUser.email,
         password: newUser.password,
-        handicapped: newUser.disabled,
+        handicapped: newUser.handicapped,
         googleUserID: newUser.googleUserID);
 
     final AccessToken newToken = AccessToken(
