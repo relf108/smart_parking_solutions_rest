@@ -1,7 +1,7 @@
 import 'package:conduit/conduit.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 
-import '../smart_parking_solutions_rest.dart';
+import '../../smart_parking_solutions_rest.dart';
 
 class CurrentBookingsController extends ResourceController {
   Future prepare() async {
