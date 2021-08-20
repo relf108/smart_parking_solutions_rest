@@ -31,16 +31,18 @@ class BookingDAO {
   Future<Results> insert() async {
     final conn = await DataBase.getConnection();
     final result = await conn.query(
-        'insert into tbl_booking (createdDate, startDate, endDate, owner, bookedSpace) values(?, ?, ?, ?, ?, ?, ?, ?)',
+        'insert into tbl_booking (createdDate, startDate, endDate, owner, bookedSpace) values(?, ?, ?, ?, ?)',
         [
-          bookedSpace.bayID,
           DateTime.now().toUtc(),
           startDate,
           endDate,
+
+          ///TODO pass JSON into db correctly
           owner.toJson(),
           bookedSpace.toJson()
         ]);
     await conn.close();
+
     return result;
   }
 

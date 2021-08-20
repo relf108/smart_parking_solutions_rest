@@ -17,9 +17,7 @@ class ReserveSpaceController extends ResourceController {
     final booking = Booking.fromJson(json: json);
     final bookingSearch = await DataBase.search(
         table: 'tbl_booking',
-        searchTermVal: {
-          'bookedSpace': booking.bookedSpace.toJson().toString()
-        });
+        searchTermVal: {'bookedSpace': booking.bookedSpace.bayID!});
     if (bookingSearch.isEmpty ||
         isAvailable(booking: booking, results: bookingSearch)) {
       try {
