@@ -15,9 +15,10 @@ class ReserveSpaceController extends ResourceController {
       {@Bind.body() required Map<String, dynamic> json}) async {
     acceptedContentTypes.add(ContentType.json);
     final booking = Booking.fromJson(json: json);
-    final bookingSearch = await DataBase.search(
+    final bookingSearch = await DataBase.searchJson(
         table: 'tbl_booking',
-        searchTermVal: {'bookedSpace': booking.bookedSpace.bayID!});
+        jsonColumnKey: {'bookedSpace': 'bay_id'},
+        searchTerm: booking.bookedSpace.bayID);
     if (bookingSearch.isEmpty ||
         isAvailable(booking: booking, results: bookingSearch)) {
       try {

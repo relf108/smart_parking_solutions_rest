@@ -50,6 +50,22 @@ class DataBase {
     return result;
   }
 
+//SELECT *, owner->'$.userID' owner
+// FROM tbl_booking;
+  static Future<Results> searchJson(
+      {required String table,
+      required Map<String, String> jsonColumnKey,
+      required dynamic searchTerm}) async {
+    final conn = await getConnection();
+    final jsonQuery =
+        "${jsonColumnKey.entries.first.key} -> '\$.${jsonColumnKey.entries.first.value}'";
+    final result = await conn.query(
+        "select * from $table where $jsonQuery  =  ?",
+        [searchTerm]);
+    await conn.close();
+    return result;  
+  }
+
   // static Future<Results> createToken(
   //     {required String? tokenValue,
   //     required User? owner,

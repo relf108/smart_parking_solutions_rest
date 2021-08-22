@@ -59,10 +59,14 @@ class UserDAO {
     return result;
   }
 
+//SELECT *, owner->'$.userID' owner
+// FROM tbl_booking;
   Future<List<Booking>> getBookings() async {
     final bookings = <Booking>[];
-    final bookingBins = await DataBase.search(
-        table: 'tbl_booking', searchTermVal: {'ownerFK': userID.toString()});
+    final bookingBins = await DataBase.searchJson(
+        table: 'tbl_booking',
+        jsonColumnKey: {'owner': 'userID'},
+        searchTerm: userID);
     for (var bin in bookingBins) {
       bookings.add(Booking.fromDBObj(dbBinary: bin));
     }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:galileo_mysql/galileo_mysql.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 
@@ -36,10 +38,8 @@ class BookingDAO {
           DateTime.now().toUtc(),
           startDate,
           endDate,
-
-          ///TODO pass JSON into db correctly
-          owner.toJson(),
-          bookedSpace.toJson()
+          jsonEncode(owner.toJson()),
+          jsonEncode(bookedSpace.toJson())
         ]);
     await conn.close();
 
