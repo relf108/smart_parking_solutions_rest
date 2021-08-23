@@ -8,11 +8,11 @@ class DeleteBookingController extends ResourceController {
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
 
-  @Operation.get()
-  Future<Response> get(
-      {@Bind.body() required Map<String, dynamic> json}) async {
+  @Operation.post()
+  Future<Response> post(
+      {@Bind.body() required Map<String, dynamic> jsonBooking}) async {
     acceptedContentTypes.add(ContentType.json);
-    final booking = Booking.fromJson(json: json);
+    final booking = Booking.fromJson(json: jsonBooking);
     try {
       final dao = BookingDAO.fromBooking(booking: booking);
       await dao.delete();
