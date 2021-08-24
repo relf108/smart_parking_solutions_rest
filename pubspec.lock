@@ -161,7 +161,7 @@ packages:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   galileo_mysql:
     dependency: "direct main"
     description:
@@ -273,7 +273,7 @@ packages:
       name: postgres
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1+2"
   pub_cache:
     dependency: transitive
     description:
@@ -347,10 +347,10 @@ packages:
   smart_parking_solutions_common:
     dependency: "direct main"
     description:
-      path: "../smart_parking_solutions_common"
-      relative: true
-    source: path
-    version: "0.0.19"
+      name: smart_parking_solutions_common
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.25"
   source_map_stack_trace:
     dependency: transitive
     description:

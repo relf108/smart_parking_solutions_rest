@@ -7,9 +7,9 @@ publish_to: none
 environment:
   sdk: ">=2.13.4 <=3.0.0"
 
-dependency_overrides:
-  smart_parking_solutions_common:
-    path: ../smart_parking_solutions_common
+# dependency_overrides:
+#   smart_parking_solutions_common:
+#     path: ../smart_parking_solutions_common
 
 dependencies:
   conduit: ^3.0.0
