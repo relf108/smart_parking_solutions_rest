@@ -12,15 +12,15 @@ class CurrentBookingsController extends ResourceController {
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
 
-  @Operation.get()
-  Future<Response> get(
-      {@Bind.body() required Map<String, dynamic> json}) async {
+  @Operation.post()
+  Future<Response> post(
+      {@Bind.body() required Map<String, dynamic> jsonUser}) async {
     acceptedContentTypes.add(ContentType.json);
-    final userJson = User.fromJson(json: json);
-    final user = UserDAO.fromUser(user: userJson);
+    final user = User.fromJson(json: jsonUser);
+    final userDAO = UserDAO.fromUser(user: user);
     final result = [];
     //   if (email != null) {
-    final bookings = await user.getBookings();
+    final bookings = await userDAO.getBookings();
     bookings.forEach(result.add);
     return Response.ok({'numberOfBookings': result.length, 'bookings': result});
   }

@@ -10,12 +10,12 @@ class ChangePasswordController extends ResourceController {
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
 
-  @Operation.get()
-  FutureOr<Response> get(
-      {@Bind.body() required Map<String, dynamic> json,
+  @Operation.post()
+  FutureOr<Response> post(
+      {@Bind.body() required Map<String, dynamic> jsonUser,
       @Bind.query("password") required String password}) async {
     acceptedContentTypes.add(ContentType.json);
-    final user = User.fromJson(json: json);
+    final user = User.fromJson(json: jsonUser);
     final userDAO = UserDAO.fromUser(user: user);
     try {
       await userDAO.update(column: 'password', newVal: password);

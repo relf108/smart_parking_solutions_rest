@@ -10,8 +10,8 @@ class ReserveSpaceController extends ResourceController {
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
 
-  @Operation.get()
-  Future<Response> get(
+  @Operation.post()
+  Future<Response> post(
       {@Bind.body() required Map<String, dynamic> json}) async {
     acceptedContentTypes.add(ContentType.json);
     final booking = Booking.fromJson(json: json);
