@@ -64,12 +64,6 @@ class OAuthController extends Controller {
     }
     await UserDAO.fromUser(user: newUser).insert();
 
-    // final AccessToken newToken = AccessToken(
-    //     createdDate: DateTime.now(),
-    //     owner: newUser,
-    //     value: accessTokenVal.value.toString());
-    // await DataBase.createToken(
-    //     tokenValue: newToken.value, owner: newUser, createdDate: newToken.createdDate);
     return Response.ok({});
   }
 }
