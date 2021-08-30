@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:conduit/conduit.dart';
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
+import 'package:smart_parking_solutions_rest/isolates/communication_channel.dart';
+import 'package:smart_parking_solutions_rest/isolates/description_isolate.dart';
+import 'package:smart_parking_solutions_rest/isolates/distance_isolate.dart';
 
 import '../../../smart_parking_solutions_rest.dart';
 
@@ -80,72 +84,64 @@ class SearchSpacesController extends ResourceController {
       }
     }
 
-    Future<Map?> _getDescription(String bayID) async {
-      final descUri = Uri.parse(
-          "https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=$bayID");
-      final HttpClientRequest descReq = await client.getUrl(descUri);
-      final descResponse =
-          (await descReq.close()).transform(const Utf8Decoder());
-      var descString = '';
-      await for (var data in descResponse) {
-        // ignore: use_string_buffers
-        descString += data;
-      }
-      descString = descString.replaceAll('[', '').replaceAll(']', '');
-      return jsonDecode(descString) as Map;
-    }
-
-    Future<String> distanceFromPoint(
-        {required String newLat, required String newLong}) async {
-      final distanceMatrix = Uri.parse(
-          "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$newLat,$newLong&destinations=$lat,$long&key=${Credentials.googleKey}");
-      final HttpClientRequest distanceReq = await client.getUrl(distanceMatrix);
-      final distanceResp =
-          (await distanceReq.close()).transform(const Utf8Decoder());
-      var distanceRespString = '';
-      await for (var data in distanceResp) {
-        // ignore: use_string_buffers
-        distanceRespString += data;
-      }
-      final distMap = jsonDecode(distanceRespString) as Map;
-      final distance = distMap.entries
-          .firstWhere((element) => element.key == 'rows')
-          .value[0]
-          .entries
-          .first
-          .value[0]
-          .entries
-          .first
-          .value
-          .entries
-          .firstWhere((element) => element.key == 'value')
-          .value
-          .toString();
-      return distance;
-    }
-
     await _addressToCoordinates();
     await _getSpaces();
+    final descriptionIsolateStream =
+        await DescriptionIsolateFactory.initDescriptionIsolate();
+    final distanceIsolateStream =
+        await DistanceIsolateFactory.initDistanceIsolate();
     for (ParkingSpace space in spaces) {
-      final descMapFull = await _getDescription(space.bayID!);
-      final descMap = {};
-      for (var entry in descMapFull!.entries) {
-        if (entry.key.toString().contains('description')) {
-          descMap.addAll({entry.key: entry.value});
-        }
+      CommunicationChannel.status.addAll({
+        space.bayID!: {'desc': false, 'dist': false}
+      });
+      descriptionIsolateStream.send({
+        space.bayID:
+            "https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=${space.bayID!}"
+      });
+
+      distanceIsolateStream.send({
+        space.bayID:
+            "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${space.lat},${space.lon}&destinations=$lat,$long&key=${Credentials.googleKey}"
+      });
+    }
+    if (await _ready()) {
+      for (Isolate isolate in CommunicationChannel.isolates) {
+        isolate.kill(priority: Isolate.immediate);
       }
-      responses.add(SearchSpacesResponse(
-          distance:
-              await distanceFromPoint(newLat: space.lat!, newLong: space.lon!),
-          humanAddress: space.location!.humanAddress!,
-          space: space,
-          description: descMap));
+      for (ParkingSpace space in spaces) {
+        responses.add(SearchSpacesResponse(
+            distance: CommunicationChannel.distances.entries
+                .firstWhere((element) => element.key == space.bayID)
+                .value,
+            humanAddress: space.location!.humanAddress!,
+            space: space,
+            description: CommunicationChannel.descriptions.entries
+                .firstWhere((element) => element.key == space.bayID)
+                .value));
+      }
+      final List jsonResponses = [];
+      for (var response in responses) {
+        jsonResponses.add(response.toJson());
+      }
+      return Response.ok(
+          {'numberOfSpaces': jsonResponses.length, 'bays': jsonResponses});
+    } else {
+      return Response.badRequest();
     }
-    final List jsonResponses = [];
-    for (var response in responses) {
-      jsonResponses.add(response.toJson());
-    }
-    return Response.ok(
-        {'numberOfSpaces': jsonResponses.length, 'bays': jsonResponses});
   }
+}
+
+Future<bool> _ready() async {
+  bool result = false;
+  for (var statusMap in CommunicationChannel.status.entries) {
+    for (var status in statusMap.value.values) {
+      if (status == false) {
+        await Future.delayed(const Duration(milliseconds: 100))
+            .then((value) => _ready());
+      } else {
+        result = true;
+      }
+    }
+  }
+  return result;
 }
