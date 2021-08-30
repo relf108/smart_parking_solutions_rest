@@ -350,7 +350,7 @@ packages:
       name: smart_parking_solutions_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.25"
+    version: "0.0.26"
   source_map_stack_trace:
     dependency: transitive
     description:
