@@ -5,7 +5,7 @@ Future main() async {
     ..options.configurationFilePath = "config.yaml"
     ..options.port = 8888;
 
-  final count = Platform.numberOfProcessors;
+  final count = Platform.numberOfProcessors ~/ 2;
   await app.start(numberOfInstances: count > 0 ? count : 1);
 
   try {
