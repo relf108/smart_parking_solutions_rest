@@ -13,7 +13,7 @@ class SignInController extends ResourceController {
       @Bind.query('password') String password) async {
     final searchResult = await DataBase.search(
         table: 'tbl_user', searchTermVal: {'email': email});
-    final user = User.fromJson(json: searchResult as Map);
+    final user = User.fromDBObj(userBinary: searchResult.first);
     if (user.password == 'unset') {
       ///User created account through google and needs to create a password
       return Response.badRequest();
