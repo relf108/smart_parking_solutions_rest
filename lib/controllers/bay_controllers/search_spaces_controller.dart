@@ -146,7 +146,7 @@ Future<bool> _ready() async {
     for (var status in statusMap.value.values) {
       if (status == false) {
         await Future.delayed(const Duration(milliseconds: 100))
-            .then((value) async => await _ready());
+            .then((value) => _ready());
       } else {
         result = true;
       }
