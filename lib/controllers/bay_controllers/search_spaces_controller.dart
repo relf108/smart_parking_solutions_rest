@@ -7,6 +7,7 @@ import 'package:smart_parking_solutions_common/smart_parking_solutions_common.da
 import 'package:smart_parking_solutions_rest/isolates/communication_channel.dart';
 import 'package:smart_parking_solutions_rest/isolates/description_isolate.dart';
 import 'package:smart_parking_solutions_rest/isolates/distance_isolate.dart';
+import 'package:smart_parking_solutions_rest/isolates/human_address.dart';
 
 import '../../../smart_parking_solutions_rest.dart';
 
@@ -90,9 +91,11 @@ class SearchSpacesController extends ResourceController {
         await DescriptionIsolateFactory.initDescriptionIsolate();
     final distanceIsolateStream =
         await DistanceIsolateFactory.initDistanceIsolate();
+    final humanAddressIsolateStream =
+        await HumanAddressIsolateFactory.initHumanAddressIsolate();
     for (ParkingSpace space in spaces) {
       CommunicationChannel.status.addAll({
-        space.bayID!: {'desc': false, 'dist': false}
+        space.bayID!: {'desc': false, 'dist': false, 'humanAddress': false}
       });
       descriptionIsolateStream.send({
         space.bayID:
@@ -102,6 +105,10 @@ class SearchSpacesController extends ResourceController {
       distanceIsolateStream.send({
         space.bayID:
             "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${space.lat},${space.lon}&destinations=$lat,$long&key=${Credentials.googleKey}"
+      });
+      humanAddressIsolateStream.send({
+        space.bayID:
+            "https://maps.googleapis.com/maps/api/geocode/json?latlng=${space.lat},${space.lon}&key=${Credentials.googleKey}"
       });
     }
     if (await _ready()) {
@@ -113,7 +120,10 @@ class SearchSpacesController extends ResourceController {
             distance: CommunicationChannel.distances.entries
                 .firstWhere((element) => element.key == space.bayID)
                 .value,
-            humanAddress: space.location!.humanAddress!,
+            humanAddress: CommunicationChannel.humanAddress.entries
+                .firstWhere((element) => element.key == space.bayID)
+                .value
+                .toString() ,
             space: space,
             description: CommunicationChannel.descriptions.entries
                 .firstWhere((element) => element.key == space.bayID)
@@ -125,9 +135,8 @@ class SearchSpacesController extends ResourceController {
       }
       return Response.ok(
           {'numberOfSpaces': jsonResponses.length, 'bays': jsonResponses});
-    } else {
-      return Response.badRequest();
     }
+    return Response.noContent();
   }
 }
 
@@ -137,7 +146,7 @@ Future<bool> _ready() async {
     for (var status in statusMap.value.values) {
       if (status == false) {
         await Future.delayed(const Duration(milliseconds: 100))
-            .then((value) => _ready());
+            .then((value) async => await _ready());
       } else {
         result = true;
       }
