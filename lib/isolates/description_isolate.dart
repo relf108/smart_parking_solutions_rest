@@ -43,7 +43,6 @@ class DescriptionIsolateFactory {
     mainToIsolateStream.listen((data) async {
       response = await getRequest(
           (data as Map).entries.first.value.toString(), client);
-      //print('[mainToIsolateStream] ${response.first}');
       isolateToMainStream.send(response);
     });
   }

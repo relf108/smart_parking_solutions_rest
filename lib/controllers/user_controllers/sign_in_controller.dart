@@ -20,6 +20,6 @@ class SignInController extends ResourceController {
     } else if (password != user.password) {
       return Response.unauthorized();
     }
-    return Response.accepted();
+    return Response.ok(user.toJson());
   }
 }
