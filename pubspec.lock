@@ -347,9 +347,9 @@ packages:
   smart_parking_solutions_common:
     dependency: "direct main"
     description:
-      name: smart_parking_solutions_common
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../smart_parking_solutions_common"
+      relative: true
+    source: path
     version: "0.0.26"
   source_map_stack_trace:
     dependency: transitive
@@ -406,7 +406,7 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.17.11"
+    version: "1.17.12"
   test_api:
     dependency: transitive
     description:
@@ -420,7 +420,7 @@ packages:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.1"
+    version: "0.4.2"
   typed_data:
     dependency: transitive
     description:
@@ -448,7 +448,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.0"
+    version: "7.3.0"
   watcher:
     dependency: transitive
     description:
