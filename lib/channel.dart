@@ -1,10 +1,12 @@
-import 'dart:convert';
-import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
-import 'package:smart_parking_solutions_rest/credentials.dart';
-import 'package:smart_parking_solutions_rest/database.dart';
-import 'package:smart_parking_solutions_rest/controller/parking_controller.dart';
-import 'smart_parking_solutions_rest.dart';
+import 'package:smart_parking_solutions_rest/controllers/bay_controllers/search_spaces_controller.dart';
+import 'package:smart_parking_solutions_rest/controllers/booking_controllers/reserve_space_controller.dart';
+import 'package:smart_parking_solutions_rest/controllers/oaut_controllers/oauth_controller.dart';
+import 'package:smart_parking_solutions_rest/controllers/user_controllers/change_password_controller.dart';
+import 'package:smart_parking_solutions_rest/controllers/user_controllers/sign_in_controller.dart';
 
+import 'controllers/booking_controllers/current_bookings_controller.dart';
+import 'controllers/booking_controllers/delete_booking_controller.dart';
+import 'smart_parking_solutions_rest.dart';
 
 class SmartParkingSolutionsRestChannel extends ApplicationChannel {
   @override
@@ -17,66 +19,13 @@ class SmartParkingSolutionsRestChannel extends ApplicationChannel {
   Controller get entryPoint {
     final router = Router();
 
-    ///This channel is used when performing Google OAuth registration.
-    router.route("/authUser").linkFunction((request) async {
-      var tokenCreated = DateTime.now().toUtc();
-      var responseCode = [];
-      var accessToken = '';
-
-      try {
-        responseCode = request.raw.uri.queryParametersAll.entries
-            .firstWhere((entries) => entries.key == 'code')
-            .value;
-      } on Exception catch (_) {
-        return Response.unauthorized();
-      }
-
-      final client = HttpClient();
-      final HttpClientRequest req = await client.postUrl(Uri.parse(
-          'https://oauth2.googleapis.com/token?code=${responseCode[0]}&client_id=${Credentials.clientID}&client_secret=${Credentials.clientSecret}&redirect_uri=http://localhost:8888/authUser&grant_type=authorization_code'));
-
-      final response = (await req.close()).transform(const Utf8Decoder());
-      await for (var data in response) {
-        // ignore: use_string_buffers
-        accessToken += data;
-      }
-      final Map accessTokenDecoded = json.decode(accessToken) as Map;
-
-      final accessTokenVal = accessTokenDecoded.entries
-          .firstWhere((element) => element.key == 'access_token');
-
-      final HttpClientRequest userInfo = await client.getUrl(Uri.parse(
-          'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${accessTokenVal.value}'));
-      final userInfoResp =
-          (await userInfo.close()).transform(const Utf8Decoder());
-      var userInfoString = '';
-      await for (var data in userInfoResp) {
-        // ignore: use_string_buffers
-        userInfoString += data;
-      }
-      final userInfoDecoded = json.decode(userInfoString) as Map;
-      final User newUser = User.fromMap(map: userInfoDecoded);
-      await DataBase.createUser(
-          givenName: newUser.givenName,
-          familyName: newUser.familyName,
-          email: newUser.email,
-          handicapped: newUser.disabled,
-          googleUserID: newUser.googleUserID);
-
-      final AccessToken newToken = AccessToken(
-          createdDate: tokenCreated,
-          owner: newUser,
-          value: accessTokenVal.value.toString());
-      await DataBase.createToken(
-          tokenValue: newToken.value,
-          owner: newUser,
-          createdDate: tokenCreated);
-      return Response.ok({"key": "value"});
-    });
-    router
-        .route("/parking")
-        .link(() => ParkingController());
-
+    router.route("/authUser").link(() => OAuthController());
+    router.route("/searchSpaces").link(() => SearchSpacesController());
+    router.route("/signInUser").link(() => SignInController());
+    router.route("/changePassword").link(() => ChangePasswordController());
+    router.route("/reserveSpace").link(() => ReserveSpaceController());
+    router.route("/currentBookings").link(() => CurrentBookingsController());
+    router.route("/deleteBooking").link(() => DeleteBookingController());
     return router;
   }
 }
