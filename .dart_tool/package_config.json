@@ -297,7 +297,7 @@
     },
     {
       "name": "smart_parking_solutions_common",
-      "rootUri": "file:///C:/Users/lance/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/smart_parking_solutions_common-0.0.26",
+      "rootUri": "../../smart_parking_solutions_common",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -416,7 +416,7 @@
       "languageVersion": "2.13"
     }
   ],
-  "generated": "2021-10-06T09:42:56.119945Z",
+  "generated": "2021-10-06T09:44:33.760455Z",
   "generator": "pub",
   "generatorVersion": "2.14.3"
 }
