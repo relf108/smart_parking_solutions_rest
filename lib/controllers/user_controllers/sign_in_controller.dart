@@ -16,7 +16,7 @@ class SignInController extends ResourceController {
     final user = User.fromDBObj(userBinary: searchResult.first);
     if (user.password == 'unset') {
       ///User created account through google and needs to create a password
-      return Response.badRequest();
+      return Response.badRequest(body: user.toJson());
     } else if (password != user.password) {
       return Response.unauthorized();
     }
