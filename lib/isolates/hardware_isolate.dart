@@ -26,6 +26,7 @@ class HardwareIsolateFactory {
     return completer.future as Future<SendPort>;
   }
 
+//Nested if else
   static void hardwareIsolate(SendPort isolateToMainStream) async {
     final mainToIsolateStream = ReceivePort();
     isolateToMainStream.send(mainToIsolateStream.sendPort);
@@ -37,10 +38,23 @@ class HardwareIsolateFactory {
         final bookings = await getBookingsForBay(bay.bayID);
         if (bookings.isEmpty) {
         } else {
-          final Uri aUri = Uri.parse("$hwUri/setBay/${bay.bayID}");
-          final request = await httpClient.postUrl(aUri);
-          request.write(bookings.first);
-          await request.close();
+          var bookingDAO = BookingDAO.fromBooking(booking: bookings.first);
+          DateTime current = DateTime.now();
+          if (current.difference(bookings.first.startDate).inMinutes <= 30 &&
+              bookings.first.bookedSpace.status == "unoccupied") {
+            if (bay.status == 4) {
+              var currentSpace = bookings.first.bookedSpace;
+              currentSpace.status = "occupied";
+              var spotJson = jsonEncode(currentSpace.toJson());
+              await bookingDAO.update(column: "bookedSpace", newVal: spotJson);
+            } else {
+              final Uri aUri = Uri.parse("$hwUri/setBay/${bay.bayID}");
+              final request = await httpClient.postUrl(aUri);
+              bay.status = 2;
+              request.write(bay);
+              await request.close();
+            }
+          }
         }
       });
       await Future.delayed(Duration(seconds: 30));

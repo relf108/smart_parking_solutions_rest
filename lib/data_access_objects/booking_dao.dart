@@ -46,8 +46,19 @@ class BookingDAO {
     return result;
   }
 
-  //ToDo, add SearchTime for Start/End DateTimes and CreateedDates
+  Future<Results> update({
+    required String column,
+    required String newVal,
+  }) async {
+    final conn = await DataBase.getConnection();
+    final result = await conn.query(
+        'update tbl_booking set $column = \'$newVal\' where bookingID = ?',
+        [bookingID]);
+    await conn.close();
+    return result;
+  }
 
+  //ToDo, add SearchTime for Start/End DateTimes and CreateedDates
 
   Future<Results> delete() async {
     final conn = await DataBase.getConnection();
