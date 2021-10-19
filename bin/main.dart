@@ -1,6 +1,5 @@
-import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
 import 'package:smart_parking_solutions_rest/isolates/hardware_isolate.dart';
-import 'dart:isolate';
+import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
 
 Future main() async {
   final app = Application<SmartParkingSolutionsRestChannel>()
@@ -17,7 +16,7 @@ Future main() async {
     print('DB: Failed to initialise database');
     print(_.toString());
   }
-  final hwIso = await HardwareIsolateFactory.initHardwareIsolate();
+  await HardwareIsolateFactory.initHardwareIsolate();
   print("Application started on port: ${app.options.port}.");
   print("Use Ctrl-C (SIGINT) to stop running the application.");
 }

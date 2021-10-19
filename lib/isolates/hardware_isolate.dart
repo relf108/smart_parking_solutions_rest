@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:io'; // for exit();
-import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
+
 import 'package:smart_parking_solutions_common/smart_parking_solutions_common.dart';
 import 'package:smart_parking_solutions_rest/data_access_objects/booking_dao.dart';
 import 'package:smart_parking_solutions_rest/smart_parking_solutions_rest.dart';
@@ -11,18 +11,17 @@ class HardwareIsolateFactory {
   //Todo Add Configuration
   static String hwUri = "http://192.168.1.101:5000";
   static Future<SendPort> initHardwareIsolate() async {
-    final Completer completer = new Completer<SendPort>();
-    ReceivePort isolateToMainStream = ReceivePort();
+    final Completer completer = Completer<SendPort>();
+    final ReceivePort isolateToMainStream = ReceivePort();
     isolateToMainStream.listen((data) {
       if (data is SendPort) {
-        SendPort mainToIsolateStream = data;
+        final SendPort mainToIsolateStream = data;
         completer.complete(mainToIsolateStream);
       } else {
         print('[isolateToMainStream] $data');
       }
     });
-    Isolate myIsolateInstance =
-        await Isolate.spawn(hardwareIsolate, isolateToMainStream.sendPort);
+    await Isolate.spawn(hardwareIsolate, isolateToMainStream.sendPort);
     return completer.future as Future<SendPort>;
   }
 
@@ -30,22 +29,22 @@ class HardwareIsolateFactory {
   static void hardwareIsolate(SendPort isolateToMainStream) async {
     final mainToIsolateStream = ReceivePort();
     isolateToMainStream.send(mainToIsolateStream.sendPort);
-    final httpClient = new HttpClient();
-    bool going = true;
+    final httpClient = HttpClient();
+    const bool going = true;
     while (going) {
-      var bays = await getRequest(hwUri, httpClient);
+      final bays = await getRequest(hwUri, httpClient);
       bays.forEach((bay) async {
         final bookings = await getBookingsForBay(bay.bayID);
         if (bookings.isEmpty) {
         } else {
-          var bookingDAO = BookingDAO.fromBooking(booking: bookings.first);
-          DateTime current = DateTime.now();
+          final bookingDAO = BookingDAO.fromBooking(booking: bookings.first);
+          final DateTime current = DateTime.now();
           if (current.difference(bookings.first.startDate).inMinutes <= 30 &&
               bookings.first.bookedSpace.status == "unoccupied") {
             if (bay.status == 4) {
-              var currentSpace = bookings.first.bookedSpace;
+              final currentSpace = bookings.first.bookedSpace;
               currentSpace.status = "occupied";
-              var spotJson = jsonEncode(currentSpace.toJson());
+              final spotJson = jsonEncode(currentSpace.toJson());
               await bookingDAO.update(column: "bookedSpace", newVal: spotJson);
             } else {
               final Uri aUri = Uri.parse("$hwUri/setBay/${bay.bayID}");
@@ -57,15 +56,15 @@ class HardwareIsolateFactory {
           }
         }
       });
-      await Future.delayed(Duration(seconds: 30));
+      await Future.delayed(const Duration(seconds: 30));
     }
   }
 
   static Future<List<HWBay>> getRequest(String uri, HttpClient client) async {
-    final aUri = Uri.parse(uri + "/getBays");
+    final aUri = Uri.parse("$uri/getBays");
     final req = await client.getUrl(aUri);
     final bays = <HWBay>[];
-    var response =
+    final response =
         (await req.close()).transform(const Utf8Decoder()).asBroadcastStream();
     await response.forEach((element) {
       final elementJson = jsonDecode(element);
@@ -90,12 +89,12 @@ class HardwareIsolateFactory {
 
 //ToDo move to commons
 class HWBay {
-  late int bayID;
-  late int status; // 1=Open,2=Booked,3=Other,4=Taken Todo make enum
   HWBay.fromJson(dynamic json) {
     bayID = int.parse(json[0]['bayID'].toString());
     status = int.parse(json[0]['status'].toString());
   }
+  late int bayID;
+  late int status;
   Map toJson() {
     final map = {'bayID': bayID, 'status': status};
     return map;
